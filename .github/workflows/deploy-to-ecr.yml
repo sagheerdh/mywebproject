@@ -29,6 +29,6 @@ jobs:
         ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         IMAGE_TAG: latest
       run: |
-        docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
-        docker tag $ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker build -t ${{ secrets.ECR_REPOSITORY }}:latest
+        docker tag ${ secrets.ECR_REPOSITORY }:latest { secrets.ECR_REPOSITORY }:latest
+        docker push ${{ secrets.ECR_REPOSITORY }}:latest
