@@ -31,10 +31,3 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-      - name: 🔄 Update ECS service
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: your-task-def.json
-          service: your-ecs-service
-          cluster: your-ecs-cluster
-          wait-for-service-stability: true
