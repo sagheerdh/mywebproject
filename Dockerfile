@@ -1,11 +1,17 @@
-# Use official Python image
+# Base image
 FROM python:3.9-slim
 
-# Set working directory
+# Working directory inside container
 WORKDIR /app
 
-# Copy files
-COPY . .
+# Copy files into container
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 
-# Run the app (for test)
+COPY app.py app.py
+
+# Expose port
+EXPOSE 80
+
+# Run the app
 CMD ["python", "app.py"]
