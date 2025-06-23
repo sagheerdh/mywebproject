@@ -1,16 +1,27 @@
-# Base image
+# Use a slim Python base image
 FROM python:3.9-slim
 
-# Working directory inside container
+# Set working directory
 WORKDIR /app
 
-# Copy files into container
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+# Install dependencies (system + Python)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY app.py app.py
+# Copy dependency file first (for better caching)
+COPY requirements.txt .
 
-# Expose port
+# Install Python packages
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application
+COPY app.py .
+
+# Set environment variable for production (optional)
+ENV PYTHONUNBUFFERED=1
+
+# Expose the port your app will run on (80 for ECS)
 EXPOSE 80
 
 # Run the app
